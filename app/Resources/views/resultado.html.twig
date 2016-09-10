@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+   <h3>  Resultados obtenidos {{ resultado|length }} </h3>
+
+	{% for row in resultado|batch(3) %}
+		{% set loopIndex = loop.index0 ~ "" %}
+		<div class="row">
+			{% for persona in row %}
+				<div class="col-xs-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							{{ persona.deno }}
+						</div>
+						<div class="panel-body">
+							<h6>{{ persona.idPersona }}</h6>
+							<h6>{{ persona.tdoc ~ ' ' ~ persona.ndoc }}</h6>
+							<h6>{{ persona.cuit }}</h6>
+							<h6>{{ persona.provincia }}</h6>
+							<h6>{{ persona.fnac | date('d/m/Y') }}</h6>
+							<h6>{{ persona.sexo }}</h6>
+							<h6>{{ persona.gradoConfiabilidad }}</h6>
+							<h5>{{ 'Fallecido' ~ ':' ~ persona.fallecido }}</h5>
+														
+							<div class="panel-group" id="accordion-{{ persona.idPersona }}" role="tablist" aria-multiselectable="true">
+
+								{% for obra in persona.coberturas %}
+									{% set loopIndex = loopIndex ~ loop.index0 %}
+								  <div class="panel panel-default">
+								    <div class="panel-heading" role="tab" id="heading-{{ loopIndex }}">
+								      <h4 class="panel-title">
+								        <a role="button" data-toggle="collapse" data-parent="#accordion-{{ persona.idPersona }}" href="#collapse-{{ loopIndex }}" aria-expanded="true" aria-controls="collapse-{{ loopIndex }}">
+								        	{% if obra.obraSocial is not empty %}
+												<h6>{{ obra.obraSocial }}</h6> 
+								        	{% else %}
+												Sin dato...
+								        	{% endif %}
+								        </a>
+								      </h4>
+								    </div>
+								    <div id="collapse-{{ loopIndex }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ loopIndex }}">
+								      <div class="panel-body">
+								       <h6> {{ 'INOS' ~ ': ' ~ obra.codigo}} </h6>
+								       <h6> {{ 'Ult.Periodo' ~ ': ' ~ obra.periodo }} </h6>
+								       <h6> {{ 'Parentesco' ~ ': ' ~ obra.parentesco }} </h6>
+								       <h6> {{ 'Fecha alta' ~ ': ' ~ obra.fechaAlta }} </h6>
+								       <h6> {{ 'Base Origen' ~ ': ' ~ obra.baseOrigen }} </h6>
+
+										<div class="form-anexo">
+											{% set formPersona = coleccionFormularios[persona.idPersona ~ "-" ~ obra.codigo] %}
+											{{ form_start(formPersona) }}
+												<div class="hidden">
+													{{form_rest(formPersona)}}
+												</div>
+												<input type="submit" value="Generar anexo II" />
+								       		{{form_end(formPersona)}}
+										</div>
+								       
+
+								      </div>
+								    </div>
+								  </div>
+								{% endfor %}
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
+
+	<!-- {{ dump(resultado) }} -->
+
+
+{% endblock %} 

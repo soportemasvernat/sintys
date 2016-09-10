@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Proyecto Sintys{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    </head>
+    <body>   
+
+       
+
+        <ul class="breadcrumb">
+          <li><a href="{{ path('new') }}">Inicio</a></li>
+          <li><a href="#">Ayuda</a></li>
+          <li class="active">Validarse</li>
+        </ul>
+
+
+        <div class="container"> <div class="jumbotron"> {% block content %}{% endblock %}</div> </div>
+       
+        {% block buscar %} {% endblock %} 
+        {% block pie %}
+
+     <div class="container">
+               <footer>
+            <p class="text-center"> &copy; {{ 'now' | date('Y') }} - HDCM - Sintys  <em> <strong> By Symfony </strong> </em> 
+            
+            </p>        
+          </footer>
+     </div>     
+    {% endblock %}                            
+        {% block javascripts %}{% endblock %}                 
+    </body>
+</html>

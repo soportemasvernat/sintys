@@ -1,0 +1,206 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<style>
+		body {
+			font-size:12px;
+			font-family:sans-serif;
+		}
+			.espacio-1cm {
+				height:1cm;
+			}
+			.espacio-2cm {
+				height:2cm;
+			}
+			.espacio-3cm {
+				height:3cm;
+			}
+			.ancho_1{
+				width:50px;
+			}
+			.base-origen {
+				font-size:10px;
+			}
+			.text-center {
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body> 
+
+	
+
+  <table border="1px"> <!-- Lo cambiaremos por CSS -->
+    <caption><p> ANEXO II Nº</p></caption>
+
+ <thead>
+    <tr>
+      <th rowspan="2" colspan="10" scope="col">COMPROBANTE DE ATENCIÓN DE BENEFICIARIOS DE AGENTES DEL SEGURO DE SALUD</th>
+      <th colspan="3" scope="col">Fecha Emisión</th>
+    </tr>
+    <tr>
+      <th scope="col">{{ 'now' | date('d') }}</th>
+      <th scope="col">{{ 'now' | date('m') }}</th>
+      <th scope="col">{{ 'now' | date('Y') }}</th>
+    </tr>
+  </thead>
+
+  
+
+    <tbody>
+
+    <tr>
+	  <th colspan="10" scope="col">Denominacion HPdGD </th>
+      <td colspan="3" scope="col">Codigo HPdGD - REFES</td>
+	</tr>
+
+  
+    <tr class="espacio-2cm">
+     <td colspan="10" scope="col"></td>
+      <td colspan="3" scope="col"></td>
+    </tr>
+
+  <tr>
+	  <th colspan="13" scope="col">Datos del Beneficiario</th>
+  </tr>
+
+   <tr>
+	  <th colspan="10" scope="col">Apellido y Nombre</th>
+ 	  <th colspan="3" scope="col">DNI Nº</th>
+  </tr>
+  <tr>
+	  <td colspan="10">{{ persona.deno }}</td>
+ 	  <td colspan="3">{{ persona.tdoc ~ ' ' ~ persona.ndoc }}</td>
+  </tr>
+
+   <tr>
+	  <th colspan="7" scope="col">Tipo Beneficiario</th>
+	  <th colspan="3" scope="col">Parentesco</th>
+	  <th colspan="2" scope="col">Sexo</th>
+	  <th colspan="1" scope="col">Edad</th>
+  </tr>
+
+
+  <tr>
+	  <td>Titular</td>
+	  <td class="ancho_1"></td>
+	  <td>Familiar</td>
+	  <td class="ancho_1"></td>
+	  <td>Adherente</td>
+	  <td class="ancho_1"></td>
+	  <td>Otros</td>
+	  <td>Conyuge</td>
+	  <td>Hijo</td>
+	  <td>Otro</td>
+	  <td colspan="2" class="text-center">{{ persona.sexo | slice(0,1) }}</td>
+	  <td class="text-center">{{ persona.edad }}</td>
+  </tr>
+
+  <tr>
+  	<th colspan="13"></th>
+  </tr>
+
+  <tr>
+  	<th colspan="3"  scope="col">Tipo de Atencion</th>
+  	<th colspan="7"  scope="col"></th>
+  	<th colspan="3"  scope="col">Fecha de Prestacion</th>
+  </tr>
+ 
+ <tr>
+ 	<td colspan="2"  rowspan="2" scope="col">Consulta</td>
+  	<td colspan="1"  rowspan="2" scope="col"> </td>
+  	<td colspan="1"  scope="col">Especialidad</td>
+  	<td colspan="6"  scope="col"></td>
+  	<td colspan="1"  scope="col"></td>
+  	<td colspan="1"  scope="col"></td>
+  	<td colspan="1"  scope="col"></td>
+  </tr>
+
+   <tr>
+ 	<td colspan="1"  scope="col">Diagnostico</td>
+  	<td colspan="9"  scope="col"></td>
+   </tr>
+
+ <tr>
+ 	<td colspan="2"  scope="col">Practica</td>
+  	<td colspan="1"  scope="col"> </td>
+  	<td colspan="1"  scope="col">Codigo NHPdeGD</td>
+  	<td colspan="2"  scope="col"></td>
+  	<td colspan="2"  scope="col"></td>
+  	<td colspan="2"  scope="col"></td>
+  	<td colspan="3"  scope="col"></td>
+  </tr>
+
+  <tr>
+ 	<td colspan="2"  scope="col">Internacion</td>
+  	<td colspan="1"  scope="col"> </td>
+  	<td colspan="1"  scope="col">Diagnosticos Egreso CIE10</td>
+  	<td colspan="1"  scope="col">Diag.Ppal.</td>
+  	<td colspan="3"  scope="col"></td>
+  	<td colspan="1"  scope="col">Otros Diag.</td>
+  	<td colspan="4"  scope="col"></td>
+  </tr>
+
+   <tr>
+ 	<td colspan="13" scope="col">NHPdeGD: Nomenclador de Hospitales Publicos de Gestion Descentralizada CIE 10: Clasificacion Internacional de Enfermedades</td>
+ 	
+   </tr>
+
+   <tr>
+   	<td colspan="8"  scope="col">Firma del medico y sello con numero de matricula</td>
+   	<td colspan="1"  scope="col">ultimo</td>
+   	<th colspan="4"  scope="col">Año Mes </th>
+   </tr>
+
+   <tr>
+    <th colspan="8" scope="col" rowspan="2"> </th>
+   	<td colspan="1" scope="col">Recibo</td>
+  	<td colspan="4" rowspan="2" scope="col" class="text-center">{{ cobertura.periodo | slice(4,2) }}/{{ cobertura.periodo | slice(0,4) }}</td>
+   </tr>
+
+   <tr>
+    <td colspan="1" scope="col">de sueldo</td>  
+   </tr>
+
+    <tr>
+    <th colspan="8" scope="col">Nombre del Agente del Seguro</th>  
+    <th colspan="5" scope="col">R.N.O.S.</th>
+   </tr>
+
+    <tr>
+    <td colspan="8" scope="col">{{ cobertura.obraSocial  }}</td>  
+    <td colspan="5" scope="col" class="text-center">{{ cobertura.codigo }}</td>
+   </tr>
+
+    <tr>
+	    <th colspan="5" scope="col">Firma Responsable administrativo</th>  
+    	<th colspan="4" scope="col" >Aclaracion de Firma</th>
+    	<th colspan="4" scope="col">Firma Beneficiario</th>
+   </tr>
+
+   <tr class="espacio-3cm">
+	    <th colspan="5" rowspan="2" scope="col"></th>  
+    	<td colspan="4" rowspan="2" scope="col"></td>
+    	<td colspan="4" rowspan="2" scope="col"></td>
+   </tr>
+
+   <tr>
+   </tr>
+
+		
+ 
+
+ </tbody>
+
+           </table>
+
+           <p class="base-origen">
+           	{{ cobertura.baseOrigen }}
+           </p>
+ 
+
+
+
+	</body>
+
+</html>
