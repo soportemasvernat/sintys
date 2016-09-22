@@ -4,6 +4,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Doctrine\ORM\EntityRepository;
+
 class ConsultaType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -27,10 +29,23 @@ class ConsultaType extends AbstractType
   			'NO' => 'NO'),
   			'label' => 'Busca coberturas??'
 		))
-		
+
+	 ->add('organismo','entity', array(
+             'label'=>'Desde que Organismo esta realizando la consulta??',
+             'class' => 'AppBundle:Organismo',
+             'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('o')
+                            ->orderBy('o.nombre','DESC')
+                            ;
+                },
+                
+            ))
+
+           		
 		->add('consultar', 'submit', array(
-			'label' => 'Consulta'
+			'label' => 'Consulta',
 		))
+
 		;
 	}
 

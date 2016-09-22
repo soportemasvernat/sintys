@@ -18,7 +18,11 @@
 							<h6>{{ persona.tdoc ~ ' ' ~ persona.ndoc }}</h6>
 							<h6>{{ persona.cuit }}</h6>
 							<h6>{{ persona.provincia }}</h6>
-							<h6>{{ persona.fnac | date('d/m/Y') }}</h6>
+							<h6>
+								{% if persona.fnac is not null %}
+									{{ persona.fnac | date('d/m/Y') }}
+								{% endif %}
+							</h6>
 							<h6>{{ persona.sexo }}</h6>
 							<h6>{{ persona.gradoConfiabilidad }}</h6>
 							<h5>{{ 'Fallecido' ~ ':' ~ persona.fallecido }}</h5>
@@ -34,7 +38,7 @@
 								        	{% if obra.obraSocial is not empty %}
 												<h6>{{ obra.obraSocial }}</h6> 
 								        	{% else %}
-												Sin dato...
+												Sin dato cabecera..
 								        	{% endif %}
 								        </a>
 								      </h4>
@@ -50,8 +54,8 @@
 										<div class="form-anexo">
 											{% set formPersona = coleccionFormularios[persona.idPersona ~ "-" ~ obra.codigo] %}
 											{{ form_start(formPersona) }}
-												<div class="hidden">
-													{{form_rest(formPersona)}}
+												 <div class="hidden">
+												{{form_rest(formPersona)}}
 												</div>
 												<input type="submit" value="Generar anexo II" />
 								       		{{form_end(formPersona)}}

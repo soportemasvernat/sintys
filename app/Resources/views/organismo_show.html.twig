@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+    <h3>Ver Organismo</h3>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id:</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo Interno:</th>
+                <td>{{ entity.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Nombre:</th>
+                <td>{{ entity.refes }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('organismo') }}">
+     	Volver al Listado
+    </a>
+{% endblock %}

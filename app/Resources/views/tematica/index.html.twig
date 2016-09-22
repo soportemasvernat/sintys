@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tematica list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descriamplia</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tematica in tematicas %}
+            <tr>
+                <td><a href="{{ path('tematica_show', { 'id': tematica.id }) }}">{{ tematica.id }}</a></td>
+                <td>{{ tematica.nombre }}</td>
+                <td>{{ tematica.descriamplia }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tematica_show', { 'id': tematica.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('tematica_edit', { 'id': tematica.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tematica_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

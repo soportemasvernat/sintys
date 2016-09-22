@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\PersonaFisica;
 use AppBundle\Entity\ObraSocial;
+use AppBundle\Entity\organismo;
 use AppBundle\Form\ConsultaType;
 use AppBundle\Form\PersonaFisicaType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
@@ -32,18 +34,21 @@ class DefaultController extends Controller
         $form = $this->createForm(new ConsultaType());
         $form->handleRequest($this->getRequest());
 
-        if($form->isValid()){
+        if($form->isValid())
+        {
             $consultas = $this->get('consultas');
-            $resultado = $consultas->consulta('identificarPersona',
-                '',
+            $resultado = $consultas->consultaBasica(
                 $form->get('ndoc')->getData(),
                 $form->get('deno')->getData(),
-                '',
-                '',
                 $form->get('tematicas')->getData()
             );
 
             $coleccionFormularios = array();
+            $organismo = $form->get('organismo')->getData();
+            $session = new Session();
+          
+            // set and get session attributes
+            $session->set('idOrganismo',$organismo->getId());
 
             foreach($resultado as $persona){
                 foreach ($persona->getCoberturas() as $cobertura) {
@@ -52,6 +57,9 @@ class DefaultController extends Controller
                     $formPersona->get('obraSocialCodigo')->setData($cobertura->getCodigo());
                     $formPersona->get('obraSocialPeriodo')->setData($cobertura->getPeriodo());
                     $formPersona->get('obraSocialBaseOrigen')->setData($cobertura->getBaseOrigen());
+
+                 
+                    /* armar una estructura de nombre de indices....*/
                     $coleccionFormularios[$persona->getIdPersona()."-".$cobertura->getCodigo()] = $formPersona->createView();
                 }
             }
@@ -65,6 +73,7 @@ class DefaultController extends Controller
             return $this->render('resultado.html.twig', array(
                 'resultado'   => $resultado,
                 'coleccionFormularios' => $coleccionFormularios,
+                              
             ));
         }
 
@@ -90,9 +99,17 @@ class DefaultController extends Controller
         $cobertura->setPeriodo($form->get('obraSocialPeriodo')->getData());
         $cobertura->setBaseOrigen($form->get('obraSocialBaseOrigen')->getData());
 
+        $em = $this->getDoctrine()->getManager();
+        $session=new Session();
+        $idOrganismo=$session->get('idOrganismo');
+        $organismo = $em->getRepository("AppBundle:Organismo")->find($idOrganismo);
+
+
+
         $html = $this->renderView('pdf.html.twig', array(
             'cobertura'  => $cobertura,
             'persona'  => $persona,
+            'organismo' => $organismo,
         ));
 
         return new Response($this->get('knp_snappy.pdf')->getOutputFromHtml($html),
@@ -101,7 +118,7 @@ class DefaultController extends Controller
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'attachment; filename="anexoII.pdf"'
             )
-        );
+        ); 
 
         return new Response($html);
     }
