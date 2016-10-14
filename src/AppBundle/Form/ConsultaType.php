@@ -31,7 +31,7 @@ class ConsultaType extends AbstractType
 		))
 
 	 ->add('organismo','entity', array(
-             'label'=>'Desde que Organismo esta realizando la consulta??',
+             'label'=>'Escoja su Organismo',
              'class' => 'AppBundle:Organismo',
              'query_builder' => function(EntityRepository $er) {
                             return $er->createQueryBuilder('o')

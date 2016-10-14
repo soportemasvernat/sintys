@@ -31,7 +31,7 @@ class Consultas {
             'sexo' => $sexo,
             'fnac' => $fnac,
             'tematicas' => $tematicas,
-            'idPersona' => $idPersona
+            'idPersona' => $idPersona /* esto para reutilizar la funcion query y busque las otras tematicas */
         );
         $query = array(
             'organismo' => $this->organismo,

@@ -65,11 +65,7 @@ class DefaultController extends Controller
             }
          
             
-                    // cargar objetos personas en una array collection
-                    //$this->cargar($resultado);
-               
-         
-
+          
             return $this->render('resultado.html.twig', array(
                 'resultado'   => $resultado,
                 'coleccionFormularios' => $coleccionFormularios,
@@ -106,19 +102,24 @@ class DefaultController extends Controller
 
 
 
+
         $html = $this->renderView('pdf.html.twig', array(
             'cobertura'  => $cobertura,
             'persona'  => $persona,
             'organismo' => $organismo,
         ));
 
-        return new Response($this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+        $organismo->incrementarNumeroAnexo();
+        $em->persist($organismo);
+        $em->flush();
+
+       return new Response($this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'attachment; filename="anexoII.pdf"'
             )
-        ); 
+        );
 
         return new Response($html);
     }

@@ -106,6 +106,31 @@ class AdminController extends Controller
         return $this->render('organismo_edit.html.twig', array('form'=>$form->createView()));
     }
 
+      /**
+     * @Route("/organismo_numanexo/{id}", name="organismo_numanexo")
+    */
+    public function organismo_numanexo($id)
+    {    
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Organismo')->find($id);
+        $form = $this->createForm(new OrganismoType(), $entity);
+        $form->handleRequest($this->getRequest());
+        if ($form->isValid())
+        {
+            try{  
+                $em->persist($entity);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success','Item actualizado');
+                return $this->redirect($this->generateUrl('organismo_edit', array('id' => $entity->getId())));
+            }
+            catch(\Exception $e){
+                $this->get('session')->getFlashBag()->add('error','Error al intentar actualizar item');  
+               // return $this->redirect($this->generateUrl('alasector_edit', array('id' => $entity->getId())));
+            }    
+        }
+        return $this->render('organismo_edit.html.twig', array('form'=>$form->createView()));
+    }
+
      /**
      * @Route("/organismo_delete", name="organismo_delete")
      */
