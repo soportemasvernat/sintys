@@ -47,7 +47,7 @@ class AdminController extends Controller
             $entities = $em->getRepository('AppBundle:Organismo')->findByName($nombre);
         }
     	$paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate($entities, $this->getRequest()->query->get('pagina',1), 10);
+        $entities = $paginator->paginate($entities, $this->getRequest()->query->get('page',1), 10);
         return $this->render('organismoIndex.html.twig', array(
         	'entities'=> $entities,
             	'form'=>$form->createView()	
@@ -151,7 +151,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="organismo_show")
+     * @Route("/organismo/show/{id}", name="organismo_show")
      * @Method("GET")
      */
     public function organismo_showAction($id)

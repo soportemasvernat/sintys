@@ -19,11 +19,20 @@
     <body>   
 
        
+                
+                 
 
         <ul class="breadcrumb">
           <li><a href="{{ path('new') }}">Inicio</a></li>
           <li><a href="#">Ayuda</a></li>
-          <li class="active">Validarse</li>
+          {% if app.user %}
+          <li>
+            <a href="#">{{ app.user.nombre }}</a>
+          </li>
+             {% else %}
+                   <li><a href="#"> Validarse </a></li>
+
+        {% endif %}
         </ul>
 
 

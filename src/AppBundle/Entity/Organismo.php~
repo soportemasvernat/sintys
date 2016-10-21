@@ -38,7 +38,7 @@ class Organismo
      /**
      * @var int
      *
-     * @ORM\Column(name="numanexo", type="integer", unique=false)
+     * @ORM\Column(name="numanexo", type="integer", unique=false,  nullable=true)
      */
     private $numanexo;
 
@@ -48,6 +48,10 @@ class Organismo
 
     public function __toString(){
         return " ".$this->getNombre();
+    }
+
+    function incrementarNumeroAnexo(){
+    $this->numanexo = $this->numanexo + 1;
     }
 
     /**
@@ -104,5 +108,28 @@ class Organismo
     public function getRefes()
     {
         return $this->refes;
+    }
+
+    /**
+     * Set numanexo
+     *
+     * @param integer $numanexo
+     * @return Organismo
+     */
+    public function setNumanexo($numanexo)
+    {
+        $this->numanexo = $numanexo;
+
+        return $this;
+    }
+
+    /**
+     * Get numanexo
+     *
+     * @return integer 
+     */
+    public function getNumanexo()
+    {
+        return $this->numanexo;
     }
 }
