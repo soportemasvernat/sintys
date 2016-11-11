@@ -8,6 +8,7 @@
     <a href="{{ path('organismo_new') }}">
     	<h4>[Crear]</h4>
     </a>	
+     
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -38,5 +39,9 @@
     {% if entities.getTotalItemCount > 10 %}
 	{{ knp_pagination_render(entities) }}
     {% endif %}
+
+     <a href="{{ path('admin') }}">
+        <h5>[Volver Admin]</h5>
+    </a>
                  
 {% endblock %}

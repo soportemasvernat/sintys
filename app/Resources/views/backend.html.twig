@@ -2,22 +2,23 @@
 
 {% block content %} 
 
-        
-<!-- Single button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-   BackEnd del Sistema <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="{{ path('organismo') }}" >Entidades</a></li>
-    <li><a href="{{ path('tematica_index') }}">Temáticas</a></li>
-    
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Usuarios del sistema</a></li>
-  </ul>
-</div>
+  
 
-
-<h6><a href="{{ path('new') }}">Validarse para usar</a> </h6>
-                 
+<div class="row">
+  <div class="col-sm-6 col-md-8">
+    <div class="thumbnail">
+       <div class="caption">
+        <h4>Administración</h4>
+        <p><h6>Módulo de administración de tablas auxiliares que utiliza el aplicativo</h6></p>
+        <p>
+        <a href="{{ path('organismo') }}" class="btn btn-default" role="button">Organismos</a> 
+        <a href="{{ path('tematica_index') }}" class="btn btn-default" role="button">Tematicas</a>
+        <a href="{{ path('user_index') }}" class="btn btn-default" role="button">Usuarios</a>
+        <a href="#" class="btn btn-default" role="button">Roles</a>
+        <a href="#" class="btn btn-default" role="button">Estructuras datos</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>   	
 {% endblock %}

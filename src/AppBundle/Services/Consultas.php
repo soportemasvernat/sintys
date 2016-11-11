@@ -17,12 +17,17 @@ class Consultas {
         
     }
 
-    public function query($operacion, $idPersona = '', $ndoc = '', $deno = '', $tematicas = 'SI', $tdoc = '', $sexo = '', $fnac = '') {
+    public function query($operacion, $idPersona = '', $ndoc = '', $deno = '', $sexo = '', $tematicas = 'SI', $tdoc = '',  $fnac = '') {
+
+
         if($deno===null){
             $deno='';
         }
         if($ndoc===null){
             $ndoc='';
+        }
+        if($sexo===null){
+            $sexo='';
         }
         $params = array(
             'ndoc' => $ndoc,
@@ -83,8 +88,6 @@ class Consultas {
             return array();
         } else {
             $arrResp = new \SimpleXMLElement($respuesta);
-            /*print_r($arrResp);
-            die;*/
             $array = json_decode(json_encode((array)$arrResp), true);
             return $array;
         }
@@ -92,9 +95,9 @@ class Consultas {
 
     
 
-    public function consultaBasica($ndoc, $deno, $tematicas){
+    public function consultaBasica($ndoc, $deno, $sexo){
 
-        $resultado = $this->query('identificarPersona', '', $ndoc, $deno, $tematicas);
+        $resultado = $this->query('identificarPersona', '', $ndoc, $deno, $sexo);
 
         $arrayPersonas = array();
 
@@ -118,22 +121,21 @@ class Consultas {
             }
 
             // acá asigno los atributos simples
-            if($tematicas=='SI') {
-                foreach ($elemento['obrasSociales'] as $obra) {
-                    $obraSocial = new ObraSocial();
-                    $obraSocial->setCodigo($this->checkIfArrayToString($obra['codigo']));
-                    $obraSocial->setObraSocial($this->checkIfArrayToString($obra['obraSocial']));
-                    $obraSocial->setParentesco($this->checkIfArrayToString($obra['parentesco']));
-                    $obraSocial->setPeriodo($this->checkIfArrayToString($obra['periodo']));
-                    $obraSocial->setFechaAlta($this->checkIfArrayToString($obra['fechaAlta']));
-                    $obraSocial->setBaseOrigen($this->checkIfArrayToString($obra['baseOrigen']));
-                  
-                    $persona->addCobertura($obraSocial);
-                }
+            foreach ($elemento['obrasSociales'] as $obra) {
+                $obraSocial = new ObraSocial();
+                $obraSocial->setCodigo($this->checkIfArrayToString($obra['codigo']));
+                $obraSocial->setObraSocial($this->checkIfArrayToString($obra['obraSocial']));
+                $obraSocial->setParentesco($this->checkIfArrayToString($obra['parentesco']));
+                $obraSocial->setPeriodo($this->checkIfArrayToString($obra['periodo']));
+                $obraSocial->setFechaAlta($this->checkIfArrayToString($obra['fechaAlta']));
+                $obraSocial->setBaseOrigen($this->checkIfArrayToString($obra['baseOrigen']));
+              
+                $persona->addCobertura($obraSocial);
             }
 
             $arrayPersonas[] = $persona;
         }
+        
 
     //print_r($arrayPersonas);die();
         return $arrayPersonas; // devuelve array de objetos personas

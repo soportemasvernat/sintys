@@ -23,11 +23,13 @@ class ConsultaType extends AbstractType
 			'required' => false
 			
 		))
-        ->add('tematicas','choice', array(
+        ->add('sexo','choice', array(
   			'choices' => array(
-  			'SI' => 'SI', 
-  			'NO' => 'NO'),
-  			'label' => 'Busca coberturas??'
+  	        '' => 'No descrimina',			
+  			'1' => 'Masculino', 
+  			'2' => 'Femenino'),
+  			'label' => 'Sexo-Genero',
+  			'required' => false
 		))
 
 	 ->add('organismo','entity', array(

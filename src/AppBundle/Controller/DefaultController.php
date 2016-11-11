@@ -17,16 +17,6 @@ class DefaultController extends Controller
 {
       
     /**
-     * @Route("/consultar", name="consultar")
-     */
-    public function consultarAction(Request $request)
-    {
-        $consultas = $this->get('consultas');
-        $consultas->consulta('identificarPersona','', '20248527', '', '', '', 'SI');
-        return $this->render('inicio.html.twig');
-    }
-
-    /**
      * @Route("/", name="new")
      */
     public function newAction()
@@ -40,7 +30,7 @@ class DefaultController extends Controller
             $resultado = $consultas->consultaBasica(
                 $form->get('ndoc')->getData(),
                 $form->get('deno')->getData(),
-                $form->get('tematicas')->getData()
+                $form->get('sexo')->getData()
             );
 
             $coleccionFormularios = array();

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="persona_fisica")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PersonaFisicaRepository")
  */
-class PersonaFisica
+class PersonaFisica implements \JsonSerializable
 {
     /**
      * @var int
@@ -116,6 +116,29 @@ class PersonaFisica
         return null;
     }
 
+    /*
+    funcion que permite pasar un objeto del tipo PersonaFisica a json
+    */
+    public function jsonSerialize() {
+        /* pasamos cobertura del tipo ArrayCollection a Array */
+        $coberturas = array();
+        foreach ($this->coberturas as $cobertura) {
+            $coberturas[] = $cobertura;
+        }
+        return [
+            'idPersona' => $this->idPersona,
+            'deno' => $this->deno,
+            'tdoc' => $this->tdoc,
+            'ndoc' => $this->ndoc,
+            'cuit' => $this->cuit,
+            'provincia' =>$this->provincia,
+            'fnac' =>$this->fnac,
+            'sexo' => $this->sexo,
+            'gradoConfiabilidad' => $this->gradoConfiabilidad,
+            'fallecido' => $this->fallecido,
+            'coberturas' => $coberturas
+        ];
+    }
 
 
     /**

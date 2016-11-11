@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="obras_sociales")
  * @ORM\Entity()
  */
-class ObraSocial
+class ObraSocial implements \JsonSerializable
 {
     /**
      * @var int
@@ -69,6 +69,17 @@ class ObraSocial
      * @ORM\Column(name="parentesco", type="text", nullable=true)
      */
     private $parentesco;
+
+    public function jsonSerialize() {
+        return [
+            'codigo' => $this->codigo,
+            'obraSocial' => $this->obraSocial,
+            'periodo' => $this->periodo,
+            'fechaAlta' => $this->fechaAlta,
+            'baseOrigen' => $this->baseOrigen,
+            'parentesco' => $this->parentesco,
+        ];
+    }
 
 
     /**
