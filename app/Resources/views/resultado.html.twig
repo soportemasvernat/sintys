@@ -26,8 +26,26 @@
 							<h6>{{ persona.sexo }}</h6>
 							<h6>{{ persona.gradoConfiabilidad }}</h6>
 							<h5>{{ 'Fallecido' ~ ':' ~ persona.fallecido }}</h5>
+
+							{% if persona.domicilios|length > 0 %}
+							 <a data-toggle="collapse" href="#domicilio-{{ persona.idPersona }}" style="text-decoration:none">Ver domicilios</a>
+							  <ul id="domicilio-{{ persona.idPersona }}" class="collapse">		
+								{% for domicilio in persona.domicilios %}
+									<li> {{ domicilio.calle }} {{ domicilio.nro }} <em>{{ domicilio.localidad }}</em> <strong>{{ domicilio.baseOrigen }}</strong></li>
+								{% endfor %}
+							  </ul>		
+						    {% endif %}
 														
+
 							<div class="panel-group" id="accordion-{{ persona.idPersona }}" role="tablist" aria-multiselectable="true">
+
+							 {% if persona.coberturas|length < 1 %} 
+							 	 	<div class="form-anexo">
+							 	 
+										
+									</div>
+							 {% endif %}
+							
 
 								{% for obra in persona.coberturas %}
 									{% set loopIndex = loopIndex ~ loop.index0 %}

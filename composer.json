@@ -19,7 +19,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/knp-snappy-bundle": "~1.4",
         "knplabs/knp-paginator-bundle": "~2.4",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "jms/serializer-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
@@ -46,7 +47,7 @@
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "5.3.9"
+            "php": "5.4.45"
         }
     },
     "extra": {

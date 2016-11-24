@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="persona_fisica")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PersonaFisicaRepository")
  */
-class PersonaFisica
+class PersonaFisica implements \JsonSerializable
 {
     /**
      * @var int
@@ -98,15 +98,53 @@ class PersonaFisica
     */
     private $coberturas;
 
+     /** 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Domicilio", mappedBy="persona") 
+     * @ORM\OrderBy({"id"="ASC"})
+    */
+    private $domicilios;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->coberturas = new \Doctrine\Common\Collections\ArrayCollection();
-       
+        $this->domicilios = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function getEdad(){
+        if($this->fnac){
+            $hoy = new \DateTime();
+            $diferencia = $hoy->diff($this->fnac);
+            return $diferencia->format('%y');
+        }
+        return null;
+    }
+
+    /*
+    funcion que permite pasar un objeto del tipo PersonaFisica a json
+    */
+    public function jsonSerialize() {
+        /* pasamos cobertura del tipo ArrayCollection a Array */
+        $coberturas = array();
+        foreach ($this->coberturas as $cobertura) {
+            $coberturas[] = $cobertura;
+        }
+        return [
+            'idPersona' => $this->idPersona,
+            'deno' => $this->deno,
+            'tdoc' => $this->tdoc,
+            'ndoc' => $this->ndoc,
+            'cuit' => $this->cuit,
+            'provincia' =>$this->provincia,
+            'fnac' =>$this->fnac,
+            'sexo' => $this->sexo,
+            'gradoConfiabilidad' => $this->gradoConfiabilidad,
+            'fallecido' => $this->fallecido,
+            'coberturas' => $coberturas
+        ];
+    }
 
 
     /**

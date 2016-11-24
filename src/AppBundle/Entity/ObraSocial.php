@@ -52,7 +52,7 @@ class ObraSocial implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="fechaAlta", type="date", nullable=true)
+     * @ORM\Column(name="fechaAlta", type="string", nullable=true)
      */
     private $fechaAlta;
 

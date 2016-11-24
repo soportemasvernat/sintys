@@ -4,6 +4,7 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\PersonaFisica;
 use AppBundle\Entity\ObraSocial;
+use AppBundle\Entity\Domicilio;
 
 class Consultas {
  private $organismo = 'HDCMER';
@@ -133,6 +134,20 @@ class Consultas {
                 $persona->addCobertura($obraSocial);
             }
 
+            foreach ($elemento['domicilio'] as $domicilio) {
+                $objDomicilio = new Domicilio();
+                $objDomicilio->setProvincia($this->checkIfArrayToString($domicilio['provincia']));
+                $objDomicilio->setLocalidad($this->checkIfArrayToString($domicilio['localidad']));
+                $objDomicilio->setCodigoPostal($this->checkIfArrayToString($domicilio['codigoPostal']));
+                $objDomicilio->setCalle($this->checkIfArrayToString($domicilio['calle']));
+                $objDomicilio->setNro($this->checkIfArrayToString($domicilio['nro']));
+                $objDomicilio->setPiso($this->checkIfArrayToString($domicilio['piso']));
+                $objDomicilio->setDepto($this->checkIfArrayToString($domicilio['depto']));
+                $objDomicilio->setBaseOrigen($this->checkIfArrayToString($domicilio['baseOrigen']));
+              
+                $persona->addDomicilio($objDomicilio);
+            }
+
             $arrayPersonas[] = $persona;
         }
         
@@ -158,7 +173,9 @@ class Consultas {
     private function convertirFecha($fecha){
         $fechaString = $this->checkIfArrayToString($fecha);
         if(strlen($fechaString) == 10){
-            return \DateTime::createFromFormat('d/m/Y', $fechaString);
+            $nueva = \DateTime::createFromFormat('d/m/Y', $fechaString);
+            $nueva->setTime(0,0,0);
+            return $nueva;
         }
         return NULL;
     }

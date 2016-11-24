@@ -1,0 +1,95 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Domicilio
+ *
+ * @ORM\Table(name="domicilio")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DomicilioRepository")
+ */
+class Domicilio implements \JsonSerializable
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provincia", type="string", length=255)
+     */
+    private $provincia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="localidad", type="string", length=255)
+     */
+    private $localidad;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigopostal", type="string", length=255)
+     */
+    private $codigoPostal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="calle", type="string", length=255)
+     */
+    private $calle;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nro", type="string", length=255)
+     */
+    private $nro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="piso", type="string", length=255)
+     */
+    private $piso;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="depto", type="string", length=255)
+     */
+    private $depto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="baseOrigen", type="string", length=255)
+     */
+    private $baseOrigen;
+
+
+    public function jsonSerialize() {
+        return [
+            'provincia' => $this->provincia,
+            'localidad' => $this->localidad,
+            'codigoPostal' => $this->codigoPostal,
+            'calle' => $this->calle,
+            'nro' => $this->nro,
+            'piso' => $this->piso,
+            'depto' => $this->depto,
+            'baseOrigen' => $this->baseOrigen
+        ];
+    }
+
+
+}

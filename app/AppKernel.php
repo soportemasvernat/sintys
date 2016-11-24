@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new AppBundle\AppBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle()
 
         );
 

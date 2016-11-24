@@ -20,13 +20,26 @@ class ApiController extends Controller
     */
     public function consultarAction(Request $request)
     {
+
+        $serializer = $this->get('jms_serializer');
+
         $ndoc = $request->get('ndoc');
         $deno = $request->get('deno');
         $sexo = $request->get('sexo');
+        $formato = $request->get('formato');
+
         $consultas = $this->get('consultas');
         $resultado = $consultas->consultaBasica($ndoc, $deno, $sexo);
-        return new JsonResponse($resultado);
+
+        if($formato == 'xml'){
+            $xml = $serializer->serialize($resultado, 'xml');
+            return new Response($xml);
+        }
+
+        $json = $serializer->serialize($resultado, 'json'); 
+        
+        return new Response($json);
     }
-    
+
 
 }

@@ -98,13 +98,19 @@ class PersonaFisica implements \JsonSerializable
     */
     private $coberturas;
 
+     /** 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Domicilio", mappedBy="persona") 
+     * @ORM\OrderBy({"id"="ASC"})
+    */
+    private $domicilios;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->coberturas = new \Doctrine\Common\Collections\ArrayCollection();
-       
+        $this->domicilios = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getEdad(){
@@ -122,8 +128,12 @@ class PersonaFisica implements \JsonSerializable
     public function jsonSerialize() {
         /* pasamos cobertura del tipo ArrayCollection a Array */
         $coberturas = array();
+        $domicilios = array();
         foreach ($this->coberturas as $cobertura) {
             $coberturas[] = $cobertura;
+        }
+        foreach ($this->domicilios as $domicilio) {
+            $domicilios[] = $domicilio;
         }
         return [
             'idPersona' => $this->idPersona,
@@ -136,7 +146,8 @@ class PersonaFisica implements \JsonSerializable
             'sexo' => $this->sexo,
             'gradoConfiabilidad' => $this->gradoConfiabilidad,
             'fallecido' => $this->fallecido,
-            'coberturas' => $coberturas
+            'coberturas' => $coberturas,
+            'domicilios' => $domicilios
         ];
     }
 
@@ -412,5 +423,38 @@ class PersonaFisica implements \JsonSerializable
     public function getCoberturas()
     {
         return $this->coberturas;
+    }
+
+    /**
+     * Add domicilios
+     *
+     * @param \AppBundle\Entity\Domicilio $domicilios
+     * @return PersonaFisica
+     */
+    public function addDomicilio(\AppBundle\Entity\Domicilio $domicilios)
+    {
+        $this->domicilios[] = $domicilios;
+
+        return $this;
+    }
+
+    /**
+     * Remove domicilios
+     *
+     * @param \AppBundle\Entity\Domicilio $domicilios
+     */
+    public function removeDomicilio(\AppBundle\Entity\Domicilio $domicilios)
+    {
+        $this->domicilios->removeElement($domicilios);
+    }
+
+    /**
+     * Get domicilios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDomicilios()
+    {
+        return $this->domicilios;
     }
 }
