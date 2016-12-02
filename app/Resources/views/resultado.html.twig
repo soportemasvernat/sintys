@@ -41,8 +41,13 @@
 
 							 {% if persona.coberturas|length < 1 %} 
 							 	 	<div class="form-anexo">
-							 	 
-										
+							 	  {% set formPersona = coleccionFormulariosSinCobertura[persona.idPersona] %}
+											{{ form_start(formPersona) }}
+												 <div class="hidden">
+												{{form_rest(formPersona)}}
+												</div>
+												<input type="submit" value="Generar anexo II Sin Cobertura" />
+								       		{{form_end(formPersona)}}
 									</div>
 							 {% endif %}
 							

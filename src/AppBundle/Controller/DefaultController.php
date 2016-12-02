@@ -10,6 +10,7 @@ use AppBundle\Entity\ObraSocial;
 use AppBundle\Entity\organismo;
 use AppBundle\Form\ConsultaType;
 use AppBundle\Form\PersonaFisicaType;
+use AppBundle\Form\PersonaFisicaSinCoberturaType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -34,6 +35,8 @@ class DefaultController extends Controller
             );
 
             $coleccionFormularios = array();
+            $coleccionFormulariosSinCobertura = array();
+
             $organismo = $form->get('organismo')->getData();
             $session = new Session();
           
@@ -41,8 +44,16 @@ class DefaultController extends Controller
             $session->set('idOrganismo',$organismo->getId());
 
             foreach($resultado as $persona){
-                foreach ($persona->getCoberturas() as $cobertura) {
-                    $formPersona = $this->createForm(new PersonaFisicaType(), $persona, array('attr' => array('action' => $this->generateUrl('generar_pdf_anexo_2'))));
+
+                  // para pacientes SIN coberturas
+                    $formPersonaSinCobertura = $this->createForm(new PersonaFisicaSinCoberturaType(), $persona, array('attr' => array('action' => $this->generateUrl('generar_pdf_anexo_2', array('cob' => 'N')))));
+
+
+                    foreach ($persona->getCoberturas() as $cobertura) {
+                    // si los pacientes tienen coberturas
+                    $formPersona = $this->createForm(new PersonaFisicaType(), $persona, array('attr' => array('action' => $this->generateUrl('generar_pdf_anexo_2', array('cob' => 'S')))));
+
+                  
                     $formPersona->get('obraSocialNombre')->setData($cobertura->getObraSocial());
                     $formPersona->get('obraSocialCodigo')->setData($cobertura->getCodigo());
                     $formPersona->get('obraSocialPeriodo')->setData($cobertura->getPeriodo());
@@ -51,7 +62,10 @@ class DefaultController extends Controller
                  
                     /* armar una estructura de nombre de indices....*/
                     $coleccionFormularios[$persona->getIdPersona()."-".$cobertura->getCodigo()] = $formPersona->createView();
+                    
                 }
+
+                $coleccionFormulariosSinCobertura[$persona->getIdPersona()] =  $formPersonaSinCobertura->createView();
             }
          
             
@@ -59,6 +73,7 @@ class DefaultController extends Controller
             return $this->render('resultado.html.twig', array(
                 'resultado'   => $resultado,
                 'coleccionFormularios' => $coleccionFormularios,
+                'coleccionFormulariosSinCobertura' => $coleccionFormulariosSinCobertura,
                               
             ));
         }
@@ -73,17 +88,32 @@ class DefaultController extends Controller
      * @Route("/generar-pdf-anexo-2", name="generar_pdf_anexo_2")
      */
     public function generarPdfAnexo2(Request $request){
+        $cob = $request->get('cob');
+        
         $persona = new PersonaFisica();
 
-        $form = $this->createForm(new PersonaFisicaType(), $persona);
+        if ($cob == 'S')
+            { $form = $this->createForm(new PersonaFisicaType(), $persona);}else{ $form = $this->createForm(new PersonaFisicaSinCoberturaType(), $persona);}
+
+       
 
         $form->handleRequest($request);
 
         $cobertura = new ObraSocial();
+        
+       if ($cob == 'S')
+       { 
         $cobertura->setObraSocial($form->get('obraSocialNombre')->getData());
         $cobertura->setCodigo($form->get('obraSocialCodigo')->getData());
         $cobertura->setPeriodo($form->get('obraSocialPeriodo')->getData());
         $cobertura->setBaseOrigen($form->get('obraSocialBaseOrigen')->getData());
+       }else{
+
+        $cobertura->setObraSocial('');
+        $cobertura->setCodigo('');
+        $cobertura->setPeriodo('');
+        $cobertura->setBaseOrigen('');
+       }
 
         $em = $this->getDoctrine()->getManager();
         $session=new Session();
@@ -91,12 +121,11 @@ class DefaultController extends Controller
         $organismo = $em->getRepository("AppBundle:Organismo")->find($idOrganismo);
 
 
-
-
         $html = $this->renderView('pdf.html.twig', array(
             'cobertura'  => $cobertura,
             'persona'  => $persona,
             'organismo' => $organismo,
+            
         ));
 
         $organismo->incrementarNumeroAnexo();
