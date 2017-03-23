@@ -88,7 +88,7 @@ class PersonaFisica implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="fallecido", type="boolean", nullable=true)
+     * @ORM\Column(name="fallecido", type="string", length=2, nullable=true)
      */
     private $fallecido;
 
@@ -369,29 +369,7 @@ class PersonaFisica implements \JsonSerializable
         return $this->gradoConfiabilidad;
     }
 
-    /**
-     * Set fallecido
-     *
-     * @param boolean $fallecido
-     * @return PersonaFisica
-     */
-    public function setFallecido($fallecido)
-    {
-        $this->fallecido = $fallecido;
-
-        return $this;
-    }
-
-    /**
-     * Get fallecido
-     *
-     * @return boolean 
-     */
-    public function getFallecido()
-    {
-        return $this->fallecido;
-    }
-
+   
     /**
      * Add coberturas
      *
@@ -456,5 +434,28 @@ class PersonaFisica implements \JsonSerializable
     public function getDomicilios()
     {
         return $this->domicilios;
+    }
+
+    /**
+     * Set fallecido
+     *
+     * @param string $fallecido
+     * @return PersonaFisica
+     */
+    public function setFallecido($fallecido)
+    {
+        $this->fallecido = $fallecido;
+
+        return $this;
+    }
+
+    /**
+     * Get fallecido
+     *
+     * @return string 
+     */
+    public function getFallecido()
+    {
+        return $this->fallecido;
     }
 }

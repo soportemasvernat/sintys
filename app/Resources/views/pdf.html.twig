@@ -58,7 +58,7 @@
 	</tr>
 
   
-    <tr class="espacio-2cm">
+    <tr class="espacio-1cm">
      <td colspan="10" scope="col" class="text-center">{{ organismo.nombre }}</td>
       <td colspan="3" scope="col" class="text-center">{{ organismo.refes }}</td>
     </tr>
@@ -71,7 +71,7 @@
 	  <th colspan="10" scope="col">Apellido y Nombre</th>
  	  <th colspan="3" scope="col">DNI Nº</th>
   </tr>
-  <tr class="espacio-2cm">
+  <tr class="espacio-1cm">
 	  <td colspan="10" class="text-center">{{ persona.deno }}</td>
  	  <td colspan="3" class="text-center">{{ persona.tdoc ~ ' ' ~ persona.ndoc }}</td>
   </tr>
@@ -84,7 +84,7 @@
   </tr>
 
 
-  <tr>
+  <tr class="espacio-2cm">
 	  <td>Titular</td>
 	  <td class="ancho_1"></td>
 	  <td>Familiar</td>
@@ -109,7 +109,7 @@
   	<th colspan="3"  scope="col">Fecha de Prestacion</th>
   </tr>
  
- <tr>
+ <tr class="espacio-2cm">
  	<td colspan="2"  rowspan="2" scope="col">Consulta</td>
   	<td colspan="1"  rowspan="2" scope="col"> </td>
   	<td colspan="1"  scope="col">Especialidad</td>
@@ -119,12 +119,12 @@
   	<td colspan="1"  scope="col"></td>
   </tr>
 
-   <tr>
+   <tr class="espacio-2cm">
  	<td colspan="1"  scope="col">Diagnostico</td>
   	<td colspan="9"  scope="col"></td>
    </tr>
 
- <tr>
+  <tr class="espacio-2cm">
  	<td colspan="2"  scope="col">Practica</td>
   	<td colspan="1"  scope="col"> </td>
   	<td colspan="1"  scope="col">Codigo NHPdeGD</td>
@@ -152,21 +152,23 @@
    <tr>
    	<td colspan="8"  scope="col">Firma del medico y sello con numero de matricula</td>
    	<td colspan="1"  scope="col">ultimo</td>
-   	<th colspan="4"  scope="col">Año Mes </th>
+   	<th colspan="4"  scope="col"> Mes Año</th>
    </tr>
 
    <tr  class="espacio-2cm">
     <th colspan="8" scope="col" rowspan="2"> </th>
    	<td colspan="1" scope="col">Recibo</td>
-  	<td colspan="4" rowspan="2" scope="col" class="text-center">{{ cobertura.periodo | slice(4,2) }}/{{ cobertura.periodo | slice(0,4) }}</td>
-   </tr>
+  <!--	<td colspan="4" rowspan="2" scope="col" class="text-center">{{ cobertura.periodo | slice(4,2) }}/{{ cobertura.periodo | slice(0,4) }}</td> -->
+
+  <td colspan="4" rowspan="2" scope="col" class="text-center">{{ 'now' | date('m') - 3 }} / {{ 'now' | date('Y') }}</td>
+   </tr> 
 
    <tr>
     <td colspan="1" scope="col">de sueldo</td>  
    </tr>
 
     <tr>
-    <th colspan="8" scope="col">Nombre del Agente del Seguro</th>  
+    <th colspan="8" scope="col">Nombre del Agente del Seguro de Salud</th>  
     <th colspan="5" scope="col">R.N.O.S.</th>
    </tr>
 

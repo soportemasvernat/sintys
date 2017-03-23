@@ -88,7 +88,7 @@ class PersonaFisica implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="fallecido", type="boolean", nullable=true)
+     * @ORM\Column(name="fallecido", type="string", length=2, nullable=true)
      */
     private $fallecido;
 
@@ -128,8 +128,12 @@ class PersonaFisica implements \JsonSerializable
     public function jsonSerialize() {
         /* pasamos cobertura del tipo ArrayCollection a Array */
         $coberturas = array();
+        $domicilios = array();
         foreach ($this->coberturas as $cobertura) {
             $coberturas[] = $cobertura;
+        }
+        foreach ($this->domicilios as $domicilio) {
+            $domicilios[] = $domicilio;
         }
         return [
             'idPersona' => $this->idPersona,
@@ -142,7 +146,8 @@ class PersonaFisica implements \JsonSerializable
             'sexo' => $this->sexo,
             'gradoConfiabilidad' => $this->gradoConfiabilidad,
             'fallecido' => $this->fallecido,
-            'coberturas' => $coberturas
+            'coberturas' => $coberturas,
+            'domicilios' => $domicilios
         ];
     }
 
@@ -364,29 +369,7 @@ class PersonaFisica implements \JsonSerializable
         return $this->gradoConfiabilidad;
     }
 
-    /**
-     * Set fallecido
-     *
-     * @param boolean $fallecido
-     * @return PersonaFisica
-     */
-    public function setFallecido($fallecido)
-    {
-        $this->fallecido = $fallecido;
-
-        return $this;
-    }
-
-    /**
-     * Get fallecido
-     *
-     * @return boolean 
-     */
-    public function getFallecido()
-    {
-        return $this->fallecido;
-    }
-
+   
     /**
      * Add coberturas
      *
@@ -418,5 +401,38 @@ class PersonaFisica implements \JsonSerializable
     public function getCoberturas()
     {
         return $this->coberturas;
+    }
+
+    /**
+     * Add domicilios
+     *
+     * @param \AppBundle\Entity\Domicilio $domicilios
+     * @return PersonaFisica
+     */
+    public function addDomicilio(\AppBundle\Entity\Domicilio $domicilios)
+    {
+        $this->domicilios[] = $domicilios;
+
+        return $this;
+    }
+
+    /**
+     * Remove domicilios
+     *
+     * @param \AppBundle\Entity\Domicilio $domicilios
+     */
+    public function removeDomicilio(\AppBundle\Entity\Domicilio $domicilios)
+    {
+        $this->domicilios->removeElement($domicilios);
+    }
+
+    /**
+     * Get domicilios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDomicilios()
+    {
+        return $this->domicilios;
     }
 }
